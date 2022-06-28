@@ -7,6 +7,7 @@ class particleSystem {
   PVector location;
   PVector velocity;
   PVector acceleration;
+  float lifespan = 360;
 
   int gap = 1;
   float columns;
@@ -45,6 +46,8 @@ class particleSystem {
   }
 
   void run() {
+    lifespan -= 2;
+    
     for (int i = particles.size()-1; i>=0; i--) {
       Particle p = particles.get(i);
 
@@ -57,13 +60,20 @@ class particleSystem {
     }
   }
 
+  boolean isDead() {
+    if (lifespan <= 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   void force() {
     PVector cent = new PVector(0, pg.height);
     PVector p = PVector.sub(cent, location);
     p.normalize();
     p.mult(initialVel);
-    if (frameCount==1) {
+    if (t==1) {
       applyForce(p);
     }
   }
@@ -82,7 +92,7 @@ class particleSystem {
     velocity.limit(2);
     velocity.mult(0.99);
     
-    if(frameCount%stepToMiss==0 && location.y<finalPg.height){
+    if(t%stepToMiss==0 && location.y<finalPg.height){
     particles.add(new Particle(20, location.y, columns, cor, index, intervalCells, finalPg));
     }
 

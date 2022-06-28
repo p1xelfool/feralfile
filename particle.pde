@@ -3,7 +3,7 @@ class Particle {
   PVector velocity;
   PVector acceleration;
 
-  float lifespan = 360;
+  float lifespan = 180;
   float killingTime;
   float columns;
 
@@ -38,7 +38,7 @@ class Particle {
     
     if(frameCount<40 && finalPg == pg){
     sy = map(noise(location.y+1000, location.x+1000), 0, 1, -0.001, 0.001);
-    sx = map(noise(location.y, location.x), 0, 1, -0.001, 0.001);
+    sx = 0;//map(noise(location.y, location.x), 0, 1, -0.001, 0.001);
     }else{
     sy = 0;
     sx = 0;
@@ -74,11 +74,11 @@ class Particle {
     finalPg.stroke(cor);
     finalPg.noFill();
 
-    float step = (finalPg.width+20)/columns;
+    float step = (finalPg.width+1)/columns;
     
     
     
-    for (float x=-10; x<finalPg.width+10; x+=step) {
+    for (float x=0; x<finalPg.width; x+=step) {
       float show = abs(sin(radians(index*10+location.y*10)));
       float r = random(1);
       
