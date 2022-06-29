@@ -83,7 +83,8 @@ void pg1() {
 
   pg2.beginDraw();
   pg2.colorMode(HSB, 360, 80, 80, 80);
-  pg2.background(colorQuads);
+  //pg2.background(colorQuads);
+  pg2.clear();
   pg2.noFill();
 
 
@@ -98,7 +99,7 @@ void pg1() {
     for (int i = 0; i<numSystems; i++) {
       colorPicker = floor(map(random(1), 0, 1, 0, palette.length));
       color finalCol = palette[colorPicker];
-      runners.add(new particleSystem(floor(random(2, 7))*3, random(1, 5), finalCol, i, pg));
+      runners.add(new particleSystem(floor(random(2, 10)), random(1, 5), finalCol, i, pg));
     }
   }
 
@@ -106,7 +107,7 @@ void pg1() {
     for (int i = 0; i<numSystems2; i++) {
       colorPicker2 = floor(map(random(1), 1, 0, 0, palette.length));
       color finalCol2 = palette[colorPicker2];
-      runners.add(new particleSystem(floor(random(2, 7))*3, random(1, 5), finalCol2, i, pg2));
+      runners.add(new particleSystem(floor(random(2, 10)), random(1, 5), finalCol2, i, pg2));
     }
   }
   
@@ -175,23 +176,33 @@ void reset() {
   println(seed);
   noCursor();
   noiseSeed(4);
+  
+  
+  ///RESOLUTION
+  int r1, r2;
+  
+  if(random(1)<0.5){
+    r1 = 1; r2 = 2;
+  }else{
+    r1 = 2; r2 = 1;
+  }
 
 
   //PG1
-  numSystems = floor(random(2, 5));
-  pg = createGraphics(192/1, 108/1); //1920x1080 * 15%
+  numSystems = floor(random(1, 5));
+  pg = createGraphics(192/r1, 108/r1); //1920x1080 * 15%
   strokeWeight(2);
   runners = new ArrayList<particleSystem>();
   pg.noSmooth();
 
   //PG2
   numSystems2 = floor(random(2, 5));
-  pg2 = createGraphics(192/2, 108/2); //1920x1080 * 15%
+  pg2 = createGraphics(192/r2, 108/r2); //1920x1080 * 15%
   strokeWeight(2);
   pg2.noSmooth();
 
   //PG3 //MASK
-  pg3 = createGraphics(192/2, 108/2); //1920x1080 * 15%
+  pg3 = createGraphics(192/r2, 108/r2); //1920x1080 * 15%
   strokeWeight(2);
   pg3.noSmooth();
   
@@ -203,7 +214,8 @@ void reset() {
     colorQuads = #000000;
   }
 
-  sizeQuad = new PVector(random(pg3.width*0.1, pg3.width*0.8), random(pg3.height*0.2, pg3.height*0.8));
+  sizeQuad = new PVector(floor(random(pg3.width*0.1, pg3.width*0.4))*2, floor(random(pg3.height*0.1, pg3.height*0.4))*2);
+  println("w: " + sizeQuad.x + "h: " + sizeQuad.y);
 
 
 
