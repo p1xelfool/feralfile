@@ -1,3 +1,7 @@
+//ITERATION: 2
+//DATE: Jun 30th, 2022
+//Square varies in different sizes
+
 class Particle {
   PVector location;
   PVector velocity;

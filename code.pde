@@ -1,5 +1,6 @@
-/////DECIDIR SE VAI HAVER MOVIMENTO + NO CLEAR()
-
+//ITERATION: 2
+//DATE: Jun 30th, 2022
+//Square varies in different sizes
 
 
 //timecount
