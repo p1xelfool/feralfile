@@ -1,6 +1,6 @@
-//ITERATION: 2
+//ITERATION: 3
 //DATE: Jun 30th, 2022
-//Square varies in different sizes
+//Multiple cells
 
 class particleSystem {
   ArrayList<Particle> particles;
@@ -19,34 +19,35 @@ class particleSystem {
   float initialVel;
   
   int stepToMiss;
-  int index;
   float intervalCells;
 
   PGraphics finalPg;
   
-  particleSystem(float tempColumns, float tempInitialVel, color tempCor, int tempIndex, PGraphics tempPg) {
+  PVector gridPosition;
+  
+  particleSystem(float tempPosX, float tempPosY, float tempColumns, float tempInitialVel, color tempCor, PGraphics tempPg) {
     particles = new ArrayList<Particle>();
 
     float z = random(-15, 15);
     acceleration = new PVector(0, 0, 0);
-    location = new PVector(0, -4, 0);
+    location = new PVector(tempPosX, tempPosY-3, 0);
     velocity = new PVector(0, 0, 0);
+    gridPosition = new PVector(tempPosX, tempPosY, 0);
     
     columns = tempColumns;
     initialVel = tempInitialVel;
     cor = tempCor;
     
     //define which step is not going to be added
-    stepToMiss = floor(random(2, 2));
-    
-    //index of the system
-    index = tempIndex;
+    stepToMiss = 2;//floor(random(2, 2));
     
     //gap between columns
     intervalCells = random(0, 5);
     
     //graphics
     finalPg = tempPg; 
+    
+    //size
   }
 
   void run() {
@@ -73,7 +74,9 @@ class particleSystem {
   }
 
   void force() {
-    PVector cent = new PVector(0, pg.height);
+    sizeX = finalPg.width/col;
+    sizeY = finalPg.height/rows;
+    PVector cent = new PVector(gridPosition.x, gridPosition.y+sizeY);
     PVector p = PVector.sub(cent, location);
     p.normalize();
     p.mult(initialVel);
@@ -88,7 +91,8 @@ class particleSystem {
   }
 
   void nu() {
-
+    sizeX = finalPg.width/col;
+    sizeY = finalPg.height/rows;
     velocity.add(acceleration);
     location.add(velocity);
 
@@ -96,26 +100,10 @@ class particleSystem {
     velocity.limit(2);
     velocity.mult(0.99);
     
-    if(t%stepToMiss==0 && location.y<finalPg.height){
-    particles.add(new Particle(20, location.y, columns, cor, index, intervalCells, finalPg));
+    if(t%stepToMiss==0 && location.y<gridPosition.y+sizeY){
+    particles.add(new Particle(gridPosition.x, location.y, columns, cor, intervalCells, finalPg));
     }
 
   }
 
-
-
-  void edge() {
-    if (location.x < 1) { 
-      location.x = width - gap;
-    }
-    if (location.x > width - gap) { 
-      location.x = 1;
-    }
-    if (location.y < 1) { 
-      location.y = height - gap;
-    }
-    if (location.y > height - gap) { 
-      location.y = 1;
-    }
-  }
 }
