@@ -1,12 +1,12 @@
-//ITERATION: 3
+//ITERATION: 4
 //DATE: Jun 30th, 2022
-//Multiple cells
+//Multiple compositions
 
 
 //timecount
 float t = 0;
 //image
-PGraphics pg, pg2, pg3, pg4, pg5;
+PGraphics pg, pg2, pg3;
 boolean recording = false;
 
 
@@ -15,39 +15,28 @@ ArrayList<particleSystem> runners;
 int numOfP = 100;
 
 //movement
-float c, yInc;
+float c;
 
-//color
-float bright;
 
 ///////////////////////////////////////////////////////////
 /////   PALETTE
 ///////////////////////////////////////////////////////////
-//color[] palette = {
-//  #0000FF, #FF0000, #006200, #CBFF00, #FF0000, #00FF00, #5d5d5d, #772ABC
-//};
-
-final int numColors = 8;
-final IntList palette = new IntList(numColors);
-
+color[] palette = {
+  #0000FF, #FF0000, #006200, #CBFF00, #FF0000, #00FF00, #5d5d5d, #772ABC
+};
 
 int seed;
-int colorPicker, colorPicker2, maxColors;
+int colorPicker, colorPicker2;
 int numSystems, numSystems2;
 
 PVector sizeQuad;
 color colorQuads;
-
-
-////////////PLACEMENT GRID
-int col, rows;
-float sizeX, sizeY;
-boolean[][] randomCells;
-
+float randShapes;
 
 void settings() {
-  size(1536, 864);
-  //size(1920, 1080);
+  //size(1536, 864);
+  //size(192*2, 108*2);
+  fullScreen();
   noSmooth();
 }
 
@@ -57,12 +46,11 @@ void setup() {
 
 void draw() {
   background(0);
-  bright = 100;
 
   pg1();
 
 
-  //pg2.mask(pg3);
+  pg2.mask(pg3);
 
 
   image(pg, 0, 0, width, height);
@@ -88,7 +76,7 @@ void pg1() {
   pg.beginDraw();
   pg.colorMode(HSB, 360, 80, 80, 80);
   //if(frameCount>20 && frameCount>40){
-  pg.clear();
+  pg.background(0);
   //}
   pg.noFill();
 
@@ -101,45 +89,28 @@ void pg1() {
 
   t++; 
 
+  //reset timer
+  //if(t == 120){
+  //  t=0;
+  //}
 
-
-  //ADD AT FRAME 1
   if (t==1) {
-    //COLUMNS
-    for (int x=0; x<col; x++) {
-      for (int y=0; y<rows; y++) {
-
-
-        //SYSTEMS
-        if (randomCells[x][y] == false) {
-          sizeX = pg.width/col;
-          sizeY = pg.height/rows;
-
-          float posX = x * sizeX + sizeX/2;
-          float posY = y * sizeY;
-
-          for (int i = 0; i<numSystems; i++) {
-            colorPicker = floor(map(random(1), 0, 1, 0, maxColors));
-            color finalCol = palette.get(colorPicker);
-            runners.add(new particleSystem(posX, posY, floor(random(1, 4)), random(1.5, 3), finalCol, pg));
-          }
-        } else {
-
-          sizeX = pg2.width/col;
-          sizeY = pg2.height/rows;
-
-          float posX = x * sizeX + sizeX/2;
-          float posY = y * sizeY;
-
-          for (int i = 0; i<numSystems; i++) {
-            colorPicker = floor(map(random(1), 0, 1, 0, maxColors));
-            color finalCol = palette.get(colorPicker);
-            runners.add(new particleSystem(posX, posY, floor(random(1, 4)), random(1.5, 3), finalCol, pg2));
-          }
-        }
-      }
+    for (int i = 0; i<numSystems; i++) {
+      colorPicker = floor(map(random(1), 0, 1, 0, palette.length));
+      color finalCol = palette[colorPicker];
+      runners.add(new particleSystem(floor(random(2, 10)), random(1, 5), finalCol, i, pg));
     }
   }
+
+  if (t==1) {
+    for (int i = 0; i<numSystems2; i++) {
+      colorPicker2 = floor(map(random(1), 1, 0, 0, palette.length));
+      color finalCol2 = palette[colorPicker2];
+      runners.add(new particleSystem(floor(random(2, 10)), random(1, 5), finalCol2, i, pg2));
+    }
+  }
+
+
 
 
 
@@ -172,17 +143,43 @@ void pg1() {
 
   //////////////////////MASK PG2
 
-  //pg3.beginDraw();
-  //pg3.colorMode(HSB, 360, 80, 80, 80);
-  //pg3.background(0, 100, 0);
-  //pg3.rectMode(CENTER);
+  pg3.beginDraw();
+  pg3.colorMode(HSB, 360, 80, 80, 80);
+  pg3.background(0, 100, 0);
+  pg3.rectMode(CENTER);
 
-  //pg3.fill(360);
-  //pg3.noStroke();
+  pg3.fill(360);
+  pg3.noStroke();
 
-  //pg3.rect(pg3.width/2, pg3.height/2, sizeQuad.x, sizeQuad.y);
 
-  //pg3.endDraw();
+
+
+  //OPTION 1
+  float interval = 2;  
+
+  if (randShapes<5) {
+        particleSystem r = runners.get(0);
+    float sizeC = r.stepSize*2;
+    pg3.rect(pg3.width/2, pg3.height/2, sizeC, pg3.height/4);
+  } else {
+
+    //OPTION 3
+    particleSystem r = runners.get(0);
+    float sizeC = r.stepSize;
+    pg3.rect(pg3.width/2, pg3.height/2, sizeC, pg3.height/2);
+  }
+
+  pg3.pushMatrix();
+  //pg3.translate(pg3.width/2, pg3.height/2, 0);
+  //pg3.rotateZ(radians(t));
+  //pg3.rotateY(radians(0));
+  //pg3.rect(0, 0, 30, 30);
+  
+  pg3.popMatrix();
+
+
+
+  pg3.endDraw();
 }
 
 
@@ -199,78 +196,56 @@ void reset() {
   println(seed);
   noCursor();
   noiseSeed(4);
+  
+
 
 
   ///RESOLUTION
   int r1, r2;
 
   if (random(1)<0.5) {
-    r1 = 1; 
-    r2 = 2;
+    r1 = 8; 
+    r2 = 16;
   } else {
-    r1 = 2; 
-    r2 = 1;
+    r1 = 16; 
+    r2 = 8;
   }
 
-
-
-
   //PG1
-  numSystems = floor(random(2, 5));
-  pg = createGraphics(192/1, 108/1); //1920x1080 * 15%
+  numSystems = floor(random(1, 5));
+  pg = createGraphics(width/r1, height/r1); //1920x1080 * 15%
   strokeWeight(2);
   runners = new ArrayList<particleSystem>();
   pg.noSmooth();
 
   //PG2
   numSystems2 = floor(random(2, 5));
-  pg2 = createGraphics(192/2, 108/2); //1920x1080 * 15%
+  pg2 = createGraphics(width/r2, height/r2); //1920x1080 * 15%
   strokeWeight(2);
   pg2.noSmooth();
 
   //PG3 //MASK
-  pg3 = createGraphics(192/2, 108/2); //1920x1080 * 15%
+  pg3 = createGraphics(width/r2, height/r2); //1920x1080 * 15%
   strokeWeight(2);
   pg3.noSmooth();
 
 
-  // APPEND COLORS AND SHUFFLE IT
-  palette.append(color(#0000FF));
-  palette.append(color(#006200));
-  palette.append(color(#CBFF00));
-  palette.append(color(#FF0000));
-  palette.append(color(#00FF00));
-  palette.append(color(#5d5d5d));
-  palette.append(color(#772ABC));
-  palette.append(color(#0000FF));
-  palette.shuffle(this);
 
-  maxColors = floor(random(2, 5));
-
-
-  ////PICK COLOR FOR QUAD BACKGROUNDS
   if (random(1)<9) {
-    colorQuads = palette.get(floor(map(random(1), 1, 0, 0, numColors)));
+    colorQuads = palette[floor(map(random(1), 1, 0, 0, palette.length))];
   } else {
     colorQuads = #000000;
   }
 
-  ///////GRID
-  col = floor(random(1, 5));
-  rows = floor(random(1, 1));
+  sizeQuad = new PVector(floor(random(pg3.width*0.1, pg3.width*0.4))*2, floor(random(pg3.height*0.1, pg3.height*0.4))*2);
+  println("w: " + sizeQuad.x + "h: " + sizeQuad.y);
 
-
-  randomCells = new boolean [col][rows];
-
-  for (int x=0; x<col; x++) {
-    for (int y=0; y<rows; y++) {
-      float r = random(10);
-
-      if (r<1) {
-        randomCells[x][y] = true;
-      } else {
-        randomCells[x][y] = false;
-      }
-    }
-  }
+  randShapes = random(10);
+  
+  
+  
+      //CANCEL ANTIALIASING
+  //hint(DISABLE_TEXTURE_MIPMAPS);
+  //((PGraphicsOpenGL)g).textureSampling(3);
+  //pg.noSmooth(); pg2.noSmooth(); pg3.noSmooth();
 }

@@ -1,6 +1,7 @@
-//ITERATION: 3
+//ITERATION: 4
 //DATE: Jun 30th, 2022
-//Multiple cells
+//Multiple compositions
+
 
 class Particle {
   PVector location;
@@ -15,13 +16,14 @@ class Particle {
 
   //color
   color cor;
+  int index;
   float intervalCells;
 
   PGraphics finalPg;
 
-  Particle(float x, float y, float tempColumns, color tempCor, float tempIntervalCells, PGraphics tempPg) {
+  Particle(float x, float y, float tempColumns, color tempCor, int tempIndex, float tempIntervalCells, PGraphics tempPg) {
 
-    location = new PVector(x, y);
+    location = new PVector(0, y);
     velocity = new PVector(0, 0);
     acceleration = new PVector(0, 0);
 
@@ -30,17 +32,15 @@ class Particle {
     cor = tempCor;
 
     killingTime = 2;
+    index = tempIndex;
     intervalCells = tempIntervalCells;
 
     finalPg = tempPg;
-    sizeX = finalPg.width/col;
-    sizeY = finalPg.height/rows;
-    step = sizeX/columns-1;
-    size = step/2-2;//random(2, step-2);
+    step = (finalPg.width-1)/columns;
+    size = step/2-1;//random(2, step-2);
   }
 
   void update() {
-    float dif = 0.1;
     float sx;
     float sy;
 
@@ -81,33 +81,43 @@ class Particle {
 
     finalPg.stroke(cor);
     finalPg.noFill();
-    sizeX = finalPg.width/col;
-    sizeY = finalPg.height/rows;
 
 
-    for (float x=0; x<columns; x++) {
-      float pos = map(x, 0, columns, -sizeX/2+step/2, sizeX/2+step/2);
 
-      if (columns==1) {
-        finalPg.line(location.x+pos-size-2, location.y, location.x+pos+size+2, location.y);
-      } else if (columns==2) {
-        if (x==0) {
-          finalPg.line(location.x+pos-size-2, location.y, location.x+pos+size+1, location.y);
+
+    float count = 0;
+    for (float x=step/2; x<finalPg.width-step/2+2; x+=step) {
+      count++;
+
+
+        if (count==1) {
+          finalPg.line(location.x+x-size-1, location.y, location.x+x+size, location.y);
+        } else if (count==columns) {
+          finalPg.line(location.x+x-size, location.y, location.x+x+size+1, location.y);
         } else {
-          finalPg.line(location.x+pos-size-1, location.y, location.x+pos+size+2, location.y);
+          finalPg.line(location.x+x-size, location.y, location.x+x+size, location.y);
         }
-      } else {
-        if (x==0) {
-          finalPg.line(location.x+pos-size-2, location.y, location.x+pos+size+1, location.y);
-        } else if (x==2) {
-          finalPg.line(location.x+pos-size-1, location.y, location.x+pos+size+2, location.y);
-        } else {
-          finalPg.line(location.x+pos-size-1, location.y, location.x+pos+size+1, location.y);
-        }
-      }
+      
     }
 
 
+
+    //for (float x=0; x<finalPg.width; x+=step) {
+    //  float show = abs(sin(radians(index*10+location.y*10)));
+    //  float r = random(1);
+
+    //  if(r<0.0001){
+    //    x+=2;
+    //  }
+
+    //  if(finalPg == pg2){
+    //    if(show > 0){
+    //    finalPg.line(location.x+x, location.y, location.x+x+(step-2), location.y);
+    //    }
+    //  }else{
+    //    finalPg.line(location.x+x, location.y, location.x+x+(step-2), location.y);
+    //  }
+    //}
 
     finalPg.popMatrix();
   }
