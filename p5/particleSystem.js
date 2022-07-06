@@ -79,7 +79,7 @@ ParticleSystem.prototype.nu = function() {
     this.loc.add(this.vel);
     
     this.acc.mult(0);
-    this.vel.limit(2);
+    this.vel.limit(3);
     this.vel.mult(0.99);
     
     if(t%this.stepToMiss == 0 && this.loc.y<this.h){

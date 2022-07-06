@@ -60,18 +60,18 @@ function setup() {
     numSystems = floor(random(1,5));
     pg = createGraphics(innerWidth/r1, innerHeight/r1, WEBGL);
     pg.pixelDensity(1);
-    
+    pg.noSmooth();
     
     ///PG2
     numSystems2 = floor(random(2,5));
     pg2 = createGraphics(innerWidth/r2, innerHeight/r2, WEBGL);
     pg2.pixelDensity(1);
-    //pg2.noSmooth();
+    pg2.noSmooth();
     
     ///PG3
     pg3 = createGraphics(innerWidth/r2, innerHeight/r2, WEBGL);
     pg3.pixelDensity(1);
-    //pg3.noSmooth();
+    pg3.noSmooth();
     
     canvas.imageSmoothingEnabled = false;
     this._renderer.getTexture(pg).setInterpolation(NEAREST, NEAREST);
@@ -138,7 +138,7 @@ function pgShow(){
         for(let i=0; i<numSystems; i++){
             colorPicker = floor(map(random(1), 0, 1, 0, palette.length));
             let finalCol = color(palette[colorPicker]);
-            runners.push(new ParticleSystem(floor(random(2,10)), random(3,5), finalCol, i, pg, pg.width, pg.height));
+            runners.push(new ParticleSystem(floor(random(2,10)), random(2,5), finalCol, i, pg, pg.width, pg.height));
         }
     }
     
@@ -146,7 +146,7 @@ function pgShow(){
         for(let i=0; i<numSystems2; i++){
             colorPicker2 = floor(map(random(1), 0, 1, 0, palette.length));
             let finalCol2 = color(palette[colorPicker2]);
-            runners.push(new ParticleSystem(floor(random(2,10)), random(3,5), finalCol2, i, pg2, pg2.width, pg2.height));
+            runners.push(new ParticleSystem(floor(random(2,10)), random(2,5), finalCol2, i, pg2, pg2.width, pg2.height));
         }
     }
     
