@@ -27,7 +27,9 @@ let sizeQuad;
 let colorQuads;
 let randShapes;
 let sizeCx, sizeCy;
-let r1, r2;
+
+    /////RESOLUTION
+    let r1, r2;
 
 
 function setup() {
@@ -43,7 +45,7 @@ function setup() {
     strokeWeight(1.01);
     
     /////RESOLUTION
-
+    
     if(random(1)<0.5){
         r1 = 8;
         r2 = 16;
@@ -83,7 +85,6 @@ function setup() {
     pg.strokeWeight(1.01);
     pg2.strokeWeight(1.01);
     pg3.strokeWeight(1.01);
-    pg.strokeCap(SQUARE);
     
     pixelDensity(1);
     
@@ -107,10 +108,16 @@ function draw() {
     pgShow();
 
     //pg2.mask(pg3);
-    //( imageClone = pg2.get() ).mask( pg3.get() );
+    //( imageClone = pg2 ).mask( pg3 );
     
     image(pg, -windowWidth/2, -windowHeight/2, windowWidth, windowHeight);
-    //image(pg2, -windowWidth/2, -windowHeight/2, innerWidth, innerHeight);
+    
+    if(r2 == 8){
+        image(pg2, -sizeCx*r2/2-r2*2, -sizeCy*r2/2-r1/2, sizeCx*r2, sizeCy*r2, pg2.width/2-sizeCx/2-1, pg2.height/2-sizeCy/2-1, sizeCx, sizeCy);
+    }else{
+        image(pg2, -sizeCx*r2/2-r2/2, -sizeCy*r2/2-r1/2-1, sizeCx*r2, sizeCy*r2+2, pg2.width/2-sizeCx/2-1, pg2.height/2-sizeCy/2+1, sizeCx, sizeCy);
+    }
+    
     
     console.log(frameRate());
 }
@@ -127,13 +134,11 @@ function pgShow(){
     //BEGIN
     pg.colorMode(HSB, 360, 80, 80, 80);
     //pg.background(0);
-    
-    
     pg.clear();
     pg.noFill();
     
     pg2.colorMode(HSB, 360, 80, 80, 80);
-    pg2.clear();
+    pg2.background(0, 0, 0);
     pg2.noFill();
     
     //SYSTEMS
@@ -141,32 +146,15 @@ function pgShow(){
         for(let i=0; i<numSystems; i++){
             colorPicker = floor(map(random(1), 0, 1, 0, palette.length));
             let finalCol = color(palette[colorPicker]);
-            runners.push(new ParticleSystem(floor(random(2,10)), random(3,6), finalCol, i, pg, pg.width, pg.height, 1, r1));
+            runners.push(new ParticleSystem(floor(random(2,10)), random(2,5), finalCol, i, pg, pg.width, pg.height));
         }
     }
     
-    
-    let p = runners[0];
-    if(randShapes<5){
-        sizeCy = pg.height/4;
-        sizeCx = p.stepSize*2;
-    } else {
-        sizeCy = pg.height/2;
-        sizeCx = p.stepSize;
-    }
-    
-    pg.push();
-    pg.fill(0);
-    pg.noStroke();
-    pg.translate(-sizeCx/2, -sizeCy/2, 2);
-    pg.rect(0,0, sizeCx, sizeCy);
-    pg.pop();
-    
-    if(t==1){
+        if(t==1){
         for(let i=0; i<numSystems2; i++){
             colorPicker2 = floor(map(random(1), 0, 1, 0, palette.length));
             let finalCol2 = color(palette[colorPicker2]);
-            runners.push(new ParticleSystem(floor(random(2,5)), random(3,6), finalCol2, i, pg, pg.width, pg.height, 2, r2));
+            runners.push(new ParticleSystem(floor(random(2,10)), random(2,5), finalCol2, i, pg2, pg2.width, pg2.height));
         }
     }
     
@@ -175,7 +163,7 @@ function pgShow(){
     pg2.push();
     
     pg.translate(-pg.width/2, -pg.height/2, 1);
-    pg2.translate(-pg2.width/2, -pg2.height/2, 1);
+    pg2.translate(-pg2.width/2, -pg2.height/2, 3);
     
     for(let i=0; i<runners.length; i++){
         let p = runners[i];
@@ -187,12 +175,34 @@ function pgShow(){
     pg.pop();
     pg2.pop();
     
-    
-    
 
     
+    ////////////MASK PG2
+    
+//    pg3.colorMode(HSB, 360, 80, 80, 80);
+//    pg3.background(0, 100, 0);
+//    pg2.rectMode(CENTER);
+//    pg2.fill(0);
+//    pg2.noStroke();
+    //pg3.translate(-pg3.width/2, -pg3.height/2, 1);
+    
+    pg2.push();
+    //OPTION 1
+    let p = runners[0];
+    //pg2.translate(-pg2.width/2, -pg2.height/2, 2);
+//    if(randShapes<5){
+//        sizeCx = p.stepSize*2;
+//        sizeCy = pg2.height/4;
+//        //pg2.rect(pg2.width/2, pg2.height/2, sizeCx, sizeCy);
+//    } else {
+        sizeCx = p.stepSize;
+        sizeCy = r1*4;
+        //pg2.rect(pg2.width/2, pg2.height/2, sizeCx, sizeCy);
+    //}
+    
+    pg2.pop();
+    pg2.rectMode(CORNER);
 }
-
 
 
 
