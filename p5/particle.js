@@ -135,17 +135,17 @@ Particle.prototype.display = function() {
                 tempPixels[index+1] = this.ggg;
                 tempPixels[index+2] = this.bbb;
                 tempPixels[index+3] = 255;
-            //}else if((xx>finalImage2.width/2-sizeCx/2-2 && xx<finalImage2.width/2+sizeCx/2 && yy>finalImage2.height/2-sizeCy/2 && yy<finalImage2.height/2+sizeCy/2) && this.layer == 2){
-            }else if(this.layer == 2){
+            //}else if((xx>finalImage.width/2-sizeCx/2-2 && xx<finalImage.width/2+sizeCx/2 && yy>finalImage.height/2-sizeCy/2 && yy<finalImage.height/2+sizeCy/2) && this.layer == 2){
+            }else if((xx>finalImage.width/2-sizeCx/2-2 && xx<finalImage.width/2+sizeCx/2 && yy>finalImage.height/2-sizeCy/2 && yy<finalImage.height/2+sizeCy/2) && this.layer == 2){
                 let index = (xx + yy * this.w)*4;
-                tempPixels2[index] = this.rrr;
-                tempPixels2[index+1] = this.ggg;
-                tempPixels2[index+2] = this.bbb;
-                tempPixels2[index+3] = 255;
-                tempPixels2[index2] = this.rrr;
-                tempPixels2[index2+1] = this.ggg;
-                tempPixels2[index2+2] = this.bbb;
-                tempPixels2[index2+3] = 255;
+                tempPixels[index] = this.rrr;
+                tempPixels[index+1] = this.ggg;
+                tempPixels[index+2] = this.bbb;
+                tempPixels[index+3] = 255;
+                tempPixels[index2] = this.rrr;
+                tempPixels[index2+1] = this.ggg;
+                tempPixels[index2+2] = this.bbb;
+                tempPixels[index2+3] = 255;
 //                tempPixels2[index4] = this.rrr;
 //                tempPixels2[index4+1] = this.ggg;
 //                tempPixels2[index4+2] = this.bbb;

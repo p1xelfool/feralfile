@@ -123,55 +123,43 @@ function draw() {
     ///SECOND IMAGE
     finalImage.loadPixels();
     
-    for(let x=0; x<finalImage.width; x++){
-        for(let y=0; y<finalImage.height; y++){
-            let tempIndex = (x + y * finalImage.width)*4;
-            let tempIndex2 = (x*2 + y*2 * finalImage.width)*4;
-            let tempIndex3 = (x*2+1 + y*2 * finalImage.width)*4;
-            let tempIndex4 = (x*2 + y*2+1 * finalImage.width)*4;
-            let tempIndex5 = (x*2+1 + y*2+1 * finalImage.width)*4;
-
-            //if((x>finalImage.width/2-sizeCx/2-2 && x<finalImage.width/2+sizeCx/2 && y>finalImage.height/2-sizeCy/2 && y<finalImage.height/2+sizeCy/2)){
-                finalImage.pixels[tempIndex2] = tempPixels2[tempIndex];
-                finalImage.pixels[tempIndex2+1] = tempPixels2[tempIndex+1];
-                finalImage.pixels[tempIndex2+2] = tempPixels2[tempIndex+2];
-                finalImage.pixels[tempIndex2+3] = tempPixels2[tempIndex+3];
-            
-                finalImage.pixels[tempIndex3] = tempPixels2[tempIndex];
-                finalImage.pixels[tempIndex3+1] = tempPixels2[tempIndex+1];
-                finalImage.pixels[tempIndex3+2] = tempPixels2[tempIndex+2];
-                finalImage.pixels[tempIndex3+3] = tempPixels2[tempIndex+3];
-            
-                finalImage.pixels[tempIndex4] = tempPixels2[tempIndex];
-                finalImage.pixels[tempIndex4+1] = tempPixels2[tempIndex+1];
-                finalImage.pixels[tempIndex4+2] = tempPixels2[tempIndex+2];
-                finalImage.pixels[tempIndex4+3] = tempPixels2[tempIndex+3];
-                        
-                finalImage.pixels[tempIndex5] = tempPixels2[tempIndex];
-                finalImage.pixels[tempIndex5+1] = tempPixels2[tempIndex+1];
-                finalImage.pixels[tempIndex5+2] = tempPixels2[tempIndex+2];
-                finalImage.pixels[tempIndex5+3] = tempPixels2[tempIndex+3];
-                
-            //}
-        }
-    }
     
     
-    //////NON-UPSCALE
+    
+        //////NON-UPSCALE
     for(let x=0; x<finalImage.width; x++){
         for(let y=0; y<finalImage.height; y++){
             let tempIndex = (x + y * finalImage.width)*4;
                 
-            if((x<finalImage.width/2-sizeCx/2-2 || x>finalImage.width/2+sizeCx/2 || y<finalImage.height/2-sizeCy/2 || y>finalImage.height/2+sizeCy/2)){
+            //if((x<finalImage.width/2-sizeCx/2-2 || x>finalImage.width/2+sizeCx/2 || y<finalImage.height/2-sizeCy/2 || y>finalImage.height/2+sizeCy/2)){
                 finalImage.pixels[tempIndex] = tempPixels[tempIndex];
                 finalImage.pixels[tempIndex+1] = tempPixels[tempIndex+1];
                 finalImage.pixels[tempIndex+2] = tempPixels[tempIndex+2];
                 finalImage.pixels[tempIndex+3] = tempPixels[tempIndex+3];
-            }
+            //}
                 
             
         }
     }
+    
+    
+//    for(let x=0; x<finalImage.width; x++){
+//        for(let y=0; y<finalImage.height; y++){
+//            let tempIndex = (x + y * finalImage.width)*4;
+//
+//            //if((x>finalImage.width/2-sizeCx/2-2 && x<finalImage.width/2+sizeCx/2 && y>finalImage.height/2-sizeCy/2 && y<finalImage.height/2+sizeCy/2)){
+//                finalImage.pixels[tempIndex] = tempPixels2[tempIndex];
+//                finalImage.pixels[tempIndex+1] = tempPixels2[tempIndex+1];
+//                finalImage.pixels[tempIndex+2] = tempPixels2[tempIndex+2];
+//                finalImage.pixels[tempIndex+3] = tempPixels2[tempIndex+3];
+//            
+//                
+//            //}
+//        }
+//    }
+    
+    
+
     
     finalImage.updatePixels();
     
@@ -211,7 +199,7 @@ function pgShow(){
         for(let i=0; i<numSystems2; i++){
             colorPicker2 = floor(map(random(1), 0, 1, 0, palette.length));
             let finalCol2 = color(palette[colorPicker2]);
-            runners.push(new ParticleSystem(floor(random(2,7)), random(1.5,3), finalCol2, i, pg2, pg2.width, pg2.height, 2));
+            runners.push(new ParticleSystem(floor(random(4,7)), random(1.5,3), finalCol2, i, pg2, pg2.width, pg2.height, 2));
         }
     }
 
