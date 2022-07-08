@@ -9,7 +9,7 @@ let Particle = function (x, y, tempColumns, tempCor, tempIndex, tempIntervalCell
     this.loc = createVector(0, y);
     this.vel = createVector(0, 0);
     this.acc = createVector(0, 0);
-    
+
     this.columns = tempColumns;
     this.cor = tempCor;
 
@@ -17,11 +17,11 @@ let Particle = function (x, y, tempColumns, tempCor, tempIndex, tempIntervalCell
     this.lifespan = 180.0;
     this.index = tempIndex;
     this.intervalCells = tempIntervalCells;
-    
+
     this.finalPg = tempPg;
     this.w = tempW;
     this.h = tempH;
-    
+
     this.step = (this.w)/this.columns;
     this.size = this.step/2-1;
 }
@@ -63,24 +63,38 @@ Particle.prototype.display = function() {
     this.finalPg.push();
     this.finalPg.fill(color(this.cor));
     this.finalPg.noStroke();
-    
-    
-    
-    
-    
-    this.count = 0;
-    for(let x=this.step/2; x<this.w-this.step/2+2; x+=this.step){
-        if(this.count==1){
-            this.finalPg.rect(this.loc.x+x-this.step/2, this.loc.y, this.size*2, 1);
-                //this.finalPg.line(this.loc.x+x-this.size-1, this.loc.y, this.loc.x+x+this.size, this.loc.y);
-           } else if(this.count==this.columns){
-               this.finalPg.rect(this.loc.x+x-this.step/2, this.loc.y, this.size*2+1, 1); 
-               //this.finalPg.line(this.loc.x+x-this.size, this.loc.y, this.loc.x+x+this.size+1, this.loc.y);
-           } else {
-               this.finalPg.rect(this.loc.x+x-this.step/2, this.loc.y, this.size*2, 1);
-               //this.finalPg.line(this.loc.x+x-this.size, this.loc.y, this.loc.x+x+this.size, this.loc.y);
-           }
+
+
+    //for(let x=this.step/2; x<this.w-this.step/2+2; x+=this.step){
+    for(let x=0; x<this.columns; x++){
+
+        let finalX = floor(map(x, 0, this.columns-1, this.step/2, this.w-this.step/2+1));//x * int(this.step)+1;//floor(map(x, 0, this.columns-1, this.step/2, this.w-this.step/2));
+
+        //if 2 columns
+        if(x == 0){
+            this.begin = -this.size-1;
+            this.end = this.size;
+        } else if(x == this.columns-1){
+            this.begin = -this.size;
+            this.end = this.size+1;
+        }else{
+            this.begin = -this.size;
+            this.end = this.size;
+        }
+
+        
+
+        for(let i=this.begin; i<this.end; i++){
+            let index = (int(finalX) + int(i) + int(this.loc.y) * this.w)*4;
+
+            finalImage.pixels[index] = int(red(color(this.cor)));
+            finalImage.pixels[index+1] = int(green(color(this.cor)));
+            finalImage.pixels[index+2] = int(blue(color(this.cor)));
+            finalImage.pixels[index+3] = 255;
+        }
+
     }
-    
+
+    //console.log(this.columns);
     this.finalPg.pop();
 }

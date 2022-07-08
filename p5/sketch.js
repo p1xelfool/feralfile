@@ -28,14 +28,17 @@ let colorQuads;
 let randShapes;
 let sizeCx, sizeCy;
 
-    /////RESOLUTION
-    let r1, r2;
+let finalImage;
 
+/////RESOLUTION
+let r1, r2;
+let tex;
+let canvas;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight, WEBGL);
+    canvas = createCanvas(windowWidth, windowHeight);
     frameRate(30);
-    
+
     t = 0.0;
     frameCount = 0;
     seed = floor(random(1000000));
@@ -43,83 +46,111 @@ function setup() {
     noCursor();
     noiseSeed(4);
     strokeWeight(1.01);
-    
+
     /////RESOLUTION
+
+//    if(random(1)<0.5){
+//        r1 = 10;
+//        r2 = 20;
+//    }else{
+//        r1 = 20;
+//        r2 = 10;
+//    }
     
-    if(random(1)<0.5){
-        r1 = 8;
-        r2 = 16;
-    }else{
-        r1 = 16;
-        r2 = 8;
-    }
-    
-    
+    r1 = 10;
+    r2 = 20;
+
     ///START SYSTEM
     runners = [];
-    
+
     ///PG1
     numSystems = floor(random(1,5));
-    pg = createGraphics(innerWidth/r1, innerHeight/r1, WEBGL);
-    pg.pixelDensity(1);
-    pg.noSmooth();
-    
+    let pgX = int(innerWidth/r1/2*2+1);
+    let pgY = int(innerHeight/r1/2*2+1);
+    pg = createGraphics(pgX, pgY);
+    //pg.pixelDensity(1);
+    //pg.noSmooth();
+
     ///PG2
     numSystems2 = floor(random(2,5));
-    pg2 = createGraphics(innerWidth/r2, innerHeight/r2, WEBGL);
-    pg2.pixelDensity(1);
-    pg2.noSmooth();
-    
+    pg2 = createGraphics(innerWidth/r2, innerHeight/r2);
+    //pg2.pixelDensity(1);
+    //pg2.noSmooth();
+
     ///PG3
-    pg3 = createGraphics(innerWidth/r2, innerHeight/r2, WEBGL);
-    pg3.pixelDensity(1);
-    pg3.noSmooth();
-    
+//    pg3 = createGraphics(innerWidth/r2, innerHeight/r2);
+    //pg3.pixelDensity(1);
+    //pg3.noSmooth();
+
     canvas.imageSmoothingEnabled = false;
-    this._renderer.getTexture(pg).setInterpolation(NEAREST, NEAREST);
-    this._renderer.getTexture(pg2).setInterpolation(NEAREST, NEAREST);
-    this._renderer.getTexture(pg3).setInterpolation(NEAREST, NEAREST);
     p5.disableFriendlyErrors = true;
-    
+
     //noSmooth();
-    pg.strokeWeight(1.01);
-    pg2.strokeWeight(1.01);
-    pg3.strokeWeight(1.01);
-    
-    pixelDensity(1);
-    
-    
+//    pg.strokeWeight(1.01);
+//    pg2.strokeWeight(1.01);
+//    pg3.strokeWeight(1.01);
+
+    //pixelDensity(1);
+    //noSmooth();
+
     ////COLOR QUAD
     if(random(10)<9){
         colorQuads = palette[floor(map(random(1), 1, 0, 0, palette.length))];
     }else{
         colorQuads = '#000000';
     }
-    
 
+    noSmooth();
 
     ///RANDSHAPES
     randShapes = random(10);
+    
+    let fIx = int(innerWidth/r1/2*2+1);
+    let fIy = int(innerHeight/r1/2*2+1);
+    //FINALIMAGE
+    finalImage = createImage(fIx, fIy);
 }
 
 function draw() {
-    background(0, 0, 0);
+    background(0, 0, 0);    
+    finalImage.loadPixels();
+    
+    ///MAKE ALL ALPHAS 100%
+    
+
     
     pgShow();
 
+    finalImage.updatePixels();
+
     //pg2.mask(pg3);
     //( imageClone = pg2 ).mask( pg3 );
+//    finalImage.loadPixels();
+//    for(let x=0; x<finalImage.width; x++){
+//        for(let y=0; y<finalImage.height; y++){
+//            let index = x + y * finalImage.width;
+////            finalImage.pixels[index] = 255;
+////            finalImage.pixels[index+1] = 0;
+////            finalImage.pixels[index+2] = 0;
+//            finalImage.set(x, y, color(255, 0, 0));
+//        }
+//    }
+//    
+//    finalImage.set(10, 10, color(255, 0, 0));
+//    finalImage.updatePixels();
     
-    image(pg, -windowWidth/2, -windowHeight/2, windowWidth, windowHeight);
+
+    //image(pg, 0, 0, innerWidth, innerHeight);
+    image(finalImage, 0, 0, innerWidth, innerHeight);
     
-    if(r2 == 8){
-        image(pg2, -sizeCx*r2/2-r2*2, -sizeCy*r2/2-r1/2, sizeCx*r2, sizeCy*r2, pg2.width/2-sizeCx/2-1, pg2.height/2-sizeCy/2-1, sizeCx, sizeCy);
-    }else{
-        image(pg2, -sizeCx*r2/2-r2/2, -sizeCy*r2/2-r1/2-1, sizeCx*r2, sizeCy*r2+2, pg2.width/2-sizeCx/2-1, pg2.height/2-sizeCy/2+1, sizeCx, sizeCy);
-    }
+    ////NEAREST NEIGHBOR
+//    tex = canvas.getTexture(finalImage);
+//    tex.setInterpolation(NEAREST, NEAREST); 
+
     
-    
+ 
     console.log(frameRate());
+    
 }
 
 function windowResized() {
@@ -144,26 +175,28 @@ function pgShow(){
     //SYSTEMS
     if(t==1){
         for(let i=0; i<numSystems; i++){
+            //randomSeed(1);
             colorPicker = floor(map(random(1), 0, 1, 0, palette.length));
             let finalCol = color(palette[colorPicker]);
-            runners.push(new ParticleSystem(floor(random(2,10)), random(2,5), finalCol, i, pg, pg.width, pg.height));
+            //randomSeed(seed);
+            runners.push(new ParticleSystem(floor(random(3, 10)), random(2.5,5), finalCol, i, pg, pg.width, pg.height));
         }
     }
-    
-        if(t==1){
-        for(let i=0; i<numSystems2; i++){
-            colorPicker2 = floor(map(random(1), 0, 1, 0, palette.length));
-            let finalCol2 = color(palette[colorPicker2]);
-            runners.push(new ParticleSystem(floor(random(2,10)), random(2,5), finalCol2, i, pg2, pg2.width, pg2.height));
-        }
-    }
+    randomSeed(seed);
+//        if(t==1){
+//        for(let i=0; i<numSystems2; i++){
+//            colorPicker2 = floor(map(random(1), 0, 1, 0, palette.length));
+//            let finalCol2 = color(palette[colorPicker2]);
+//            runners.push(new ParticleSystem(floor(random(2,10)), random(2,5), finalCol2, i, pg2, pg2.width, pg2.height));
+//        }
+//    }
     
     
     pg.push();
     pg2.push();
     
-    pg.translate(-pg.width/2, -pg.height/2, 1);
-    pg2.translate(-pg2.width/2, -pg2.height/2, 3);
+//    pg.translate(-pg.width/2, -pg.height/2, 1);
+//    pg2.translate(-pg2.width/2, -pg2.height/2, 3);
     
     for(let i=0; i<runners.length; i++){
         let p = runners[i];
@@ -189,16 +222,8 @@ function pgShow(){
     pg2.push();
     //OPTION 1
     let p = runners[0];
-    //pg2.translate(-pg2.width/2, -pg2.height/2, 2);
-//    if(randShapes<5){
-//        sizeCx = p.stepSize*2;
-//        sizeCy = pg2.height/4;
-//        //pg2.rect(pg2.width/2, pg2.height/2, sizeCx, sizeCy);
-//    } else {
         sizeCx = p.stepSize;
         sizeCy = r1*4;
-        //pg2.rect(pg2.width/2, pg2.height/2, sizeCx, sizeCy);
-    //}
     
     pg2.pop();
     pg2.rectMode(CORNER);

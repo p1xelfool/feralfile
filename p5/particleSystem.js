@@ -44,6 +44,7 @@ ParticleSystem.prototype.update = function() {
 //        if (particle.isDead()) {
 //            this.particles.splice(i, 1);
 //        }
+        
     }
 }
 
@@ -79,10 +80,13 @@ ParticleSystem.prototype.nu = function() {
     this.loc.add(this.vel);
     
     this.acc.mult(0);
-    this.vel.limit(3);
+    this.vel.limit(2);
     this.vel.mult(0.99);
     
     if(t%this.stepToMiss == 0 && this.loc.y<this.h){
         this.particles.push(new Particle(20, this.loc.y, this.columns, this.cor, this.index, this.intervalCells, this.finalPg, this.w, this.h));
     }
+    
+
+    
 }

@@ -34,9 +34,9 @@ color colorQuads;
 float randShapes;
 
 void settings() {
-  //size(1536, 864);
+  size(1536, 864);
   //size(192*2, 108*2);
-  fullScreen();
+  //fullScreen();
   noSmooth();
 }
 
