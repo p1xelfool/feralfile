@@ -193,7 +193,7 @@ function pgShow(){
 
 
     //SYSTEMS
-    if(t==1 || t%60==0){
+    if(t==1){
         for(let i=0; i<numSystems; i++){
             colorPicker = floor(map(random(1), 0, 1, 0, palette.length));
             let finalCol = color(palette[colorPicker]);
@@ -201,7 +201,7 @@ function pgShow(){
         }
     }
 
-    if(t==1 || t%60==0){
+    if(t==1){
         for(let i=0; i<numSystems2; i++){
             colorPicker2 = floor(map(random(1), 0, 1, 0, palette.length));
             let finalCol2 = color(palette[colorPicker2]);
@@ -219,15 +219,15 @@ function pgShow(){
     }
     
     //IF DEAD
-    let len = runners.length;
-    for (let i = len - 1; i >= 0; i--) {
-        let r = runners[i];
-
-        if (r.isDead()) {
-            runners.splice(i, 1);
-        }
-        
-    }
+//    let len = runners.length;
+//    for (let i = len - 1; i >= 0; i--) {
+//        let r = runners[i];
+//
+//        if (r.isDead()) {
+//            runners.splice(i, 1);
+//        }
+//        
+//    }
 
 
     ////////////MASK BIG

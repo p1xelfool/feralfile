@@ -64,7 +64,7 @@ ParticleSystem.prototype.force = function () {
     
     this.p.normalize();
     this.p.mult(this.initialVel);
-    if(t==1  || t%60==0){
+    if(t==1){
         this.applyForce(this.p);
     }
 }
