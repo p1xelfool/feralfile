@@ -56,7 +56,7 @@ function draw() {
     if(running == true){
         
         ///////ROTATE THE SEED
-        if(t>1 && t%140==0){
+        if(t>1 && t%340==0){
             ///ADDS TO SEED COUNT
             if(seedCount<2){
                 seedCount++;
@@ -78,7 +78,7 @@ function draw() {
         for(let x=0; x<finalImage.width; x++){
             for(let y=0; y<finalImage.height; y++){
                 let tempIndex = (x + y * finalImage.width)*4;
-
+                
                 //if((x<finalImage.width/2-sizeCx/2-2 || x>finalImage.width/2+sizeCx/2 || y<finalImage.height/2-sizeCy/2 || y>finalImage.height/2+sizeCy/2)){
                 finalImage.pixels[tempIndex] = tempPixels[tempIndex];
                 finalImage.pixels[tempIndex+1] = tempPixels[tempIndex+1];
@@ -119,7 +119,7 @@ function draw() {
         //image(finalImage2, windowWidth/2, windowHeight/2, windowWidth, windowWidth * 0.50);
         
         
-        console.log(frameRate());
+        //console.log(frameRate());
         
 
         ////NEAREST NEIGHBOR FOR P3d
@@ -166,16 +166,18 @@ function pgShow(){
     }
 
     //IF DEAD
-    //    let len = runners.length;
-    //    for (let i = len - 1; i >= 0; i--) {
-    //        let r = runners[i];
-    //
-    //        if (r.isDead()) {
-    //            runners.splice(i, 1);
-    //        }
-    //        
-    //    }
+//        let len = runners.length;
+//        for (let i = len - 1; i >= 0; i--) {
+//            let r = runners[i];
+//    
+//            if (r.isDead()) {
+//                runners.splice(i, 1);
+//            }
+//            
+//        }
 
+    let r = runners[0];
+    console.log(r.particles.length);
 
 //    MASK SIZE
     let p = runners[0];

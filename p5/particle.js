@@ -14,7 +14,7 @@ let Particle = function (x, y, tempColumns, tempCor, tempIndex, tempIntervalCell
     this.cor = tempCor;
 
     this.killingTime = 2.0;
-    this.lifespan = 180.0;
+    this.lifespan = 440.0;
     this.index = tempIndex;
     this.intervalCells = tempIntervalCells;
 
@@ -130,6 +130,7 @@ Particle.prototype.display = function() {
             
 
             //DEFINE ON A TEMP ARRAY
+            if(this.lifespan>0){
             if((xx<finalImage.width/2-sizeCx/2-2 || xx>finalImage.width/2+sizeCx/2+1 || yy<finalImage.height/2-sizeCy/2 || yy>finalImage.height/2+sizeCy/2) && this.layer == 1){
                 tempPixels[index] = this.rrr;
                 tempPixels[index+1] = this.ggg;
@@ -149,7 +150,24 @@ Particle.prototype.display = function() {
                 tempPixels2[index4+2] = this.bbb;
                 tempPixels2[index4+3] = 255;
             }
-
+            }else{
+                tempPixels[index] = 0;
+                tempPixels[index+1] = 0;
+                tempPixels[index+2] = 0;
+                tempPixels[index+3] = 0;
+                tempPixels2[index] = 0;
+                tempPixels2[index+1] = 0;
+                tempPixels2[index+2] = 0;
+                tempPixels2[index+3] = 0;
+                tempPixels2[index2] = 0;
+                tempPixels2[index2+1] = 0;
+                tempPixels2[index2+2] = 0;
+                tempPixels2[index2+3] = 0;
+                tempPixels2[index4] = 0;
+                tempPixels2[index4+1] = 0;
+                tempPixels2[index4+2] = 0;
+                tempPixels2[index4+3] = 0;
+            }
 
 
         }

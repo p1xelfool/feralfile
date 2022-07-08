@@ -42,9 +42,9 @@ ParticleSystem.prototype.update = function() {
         particle.update();
         particle.display();
 
-//        if (particle.isDead()) {
-//            this.particles.splice(i, 1);
-//        }
+        if (particle.isDead()) {
+            this.particles.splice(i, 1);
+        }
         
     }
 }
