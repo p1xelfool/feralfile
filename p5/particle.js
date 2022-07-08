@@ -123,8 +123,8 @@ Particle.prototype.display = function() {
             
             let index = int((xx + yy * this.w)*4);
             let index2 = (xx+1 + yy+3 * this.w)*4;
-            let index3 = (xx + yy+1 * this.w)*4;
-            let index4 = (xx+this.randGlitchX + yy+this.randGlitchY * this.w)*4;
+            let index3 = (xx + yy+10 * this.w)*4;
+            let index4 = (xx+this.randGlitchX+10 + yy+this.randGlitchY * this.w)*4;
             
             
             
@@ -135,7 +135,7 @@ Particle.prototype.display = function() {
                 tempPixels[index+1] = this.ggg;
                 tempPixels[index+2] = this.bbb;
                 tempPixels[index+3] = 255;
-            }else if((xx>finalImage.width/2-sizeCx/2-2 && xx<finalImage.width/2+sizeCx/2+1 && yy>finalImage.height/2-sizeCy/2 && yy<finalImage.height/2+sizeCy/2) && this.layer == 2){
+            }else if((xx>finalImage2.width/2-sizeCx/2-2 && xx<finalImage2.width/2+sizeCx/2+1 && yy>finalImage2.height/2-sizeCy/2 && yy<finalImage2.height/2+sizeCy/2) && this.layer == 2){
                 tempPixels2[index] = this.rrr;
                 tempPixels2[index+1] = this.ggg;
                 tempPixels2[index+2] = this.bbb;
