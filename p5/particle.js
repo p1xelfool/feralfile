@@ -80,7 +80,7 @@ Particle.prototype.display = function() {
             this.end = this.size*2;
         } else if(x == this.columns-1){
             this.begin = 0;
-            this.end = this.size*2+4;
+            this.end = this.size*2+3;
         }else{
             this.begin = 0;
             this.end = this.size*2;
@@ -116,19 +116,27 @@ Particle.prototype.display = function() {
             let yy = int(this.loc.y);
             
             let index = (xx + yy * this.w)*4;
-            let index2 = (xx+1 + yy * this.w)*4;
+            let index2 = (xx+1 + yy+3 * this.w)*4;
             let index3 = (xx + yy+1 * this.w)*4;
             let index4 = (xx+this.randGlitchX + yy+this.randGlitchY * this.w)*4;
+            
+//            let index2 = (xx*2 + yy*2 * this.w)*4;
+//            let index3 = (xx*2+1 + yy*2 * this.w)*4;
+//            let index4 = (xx*2 + yy*2+1 * this.w)*4;
+//            let index5 = (xx*2+1 + yy*2+1 * this.w)*4;
+            
+            
+            
 
             //DEFINE ON A TEMP ARRAY
             //if((xx<sizeCx/2 || xx>this.w-sizeCx/2 || yy<sizeCy/2 || yy>this.h-sizeCy/2) && this.layer == 1){
-            if((xx<finalImage.width/2-sizeCx/2-2 || xx>finalImage.width/2+sizeCx/2+1 || yy<finalImage.height/2-sizeCy/2 || yy>finalImage.height/2+sizeCy/2) && this.layer == 1){
+            if((xx<finalImage.width/2-sizeCx/2-2 || xx>finalImage.width/2+sizeCx/2 || yy<finalImage.height/2-sizeCy/2 || yy>finalImage.height/2+sizeCy/2) && this.layer == 1){
                 tempPixels[index] = this.rrr;
                 tempPixels[index+1] = this.ggg;
                 tempPixels[index+2] = this.bbb;
                 tempPixels[index+3] = 255;
-            //}else if((xx>finalImage2.width/2-sizeCx/2/2-1 && xx<finalImage2.width/2+sizeCx/2/2 && yy>finalImage2.height/2-sizeCy/2/2 && yy<finalImage2.height/2+sizeCy/2/2) && this.layer == 2){
-            }else if((xx>finalImage2.width/2-sizeCx/2-2 && xx<finalImage2.width/2+sizeCx/2 && yy>finalImage2.height/2-sizeCy/2 && yy<finalImage2.height/2+sizeCy/2) && this.layer == 2){
+            //}else if((xx>finalImage2.width/2-sizeCx/2-2 && xx<finalImage2.width/2+sizeCx/2 && yy>finalImage2.height/2-sizeCy/2 && yy<finalImage2.height/2+sizeCy/2) && this.layer == 2){
+            }else if(this.layer == 2){
                 let index = (xx + yy * this.w)*4;
                 tempPixels2[index] = this.rrr;
                 tempPixels2[index+1] = this.ggg;
@@ -138,14 +146,14 @@ Particle.prototype.display = function() {
                 tempPixels2[index2+1] = this.ggg;
                 tempPixels2[index2+2] = this.bbb;
                 tempPixels2[index2+3] = 255;
-                tempPixels2[index3] = this.rrr;
-                tempPixels2[index3+1] = this.ggg;
-                tempPixels2[index3+2] = this.bbb;
-                tempPixels2[index3+3] = 255;
-                tempPixels2[index4] = this.rrr;
-                tempPixels2[index4+1] = this.ggg;
-                tempPixels2[index4+2] = this.bbb;
-                tempPixels2[index4+3] = 255;
+//                tempPixels2[index4] = this.rrr;
+//                tempPixels2[index4+1] = this.ggg;
+//                tempPixels2[index4+2] = this.bbb;
+//                tempPixels2[index4+3] = 255;
+//                tempPixels2[index5] = this.rrr;
+//                tempPixels2[index5+1] = this.ggg;
+//                tempPixels2[index5+2] = this.bbb;
+//                tempPixels2[index5+3] = 255;
             }
 
 
