@@ -28,7 +28,7 @@ let colorQuads;
 let randShapes;
 let sizeCx, sizeCy;
 
-let finalImage;
+let finalImage, finalImage2, tempPixels, tempPixels2;
 
 /////RESOLUTION
 let r1, r2;
@@ -49,49 +49,42 @@ function setup() {
 
     /////RESOLUTION
 
-//    if(random(1)<0.5){
-//        r1 = 10;
-//        r2 = 20;
-//    }else{
-//        r1 = 20;
-//        r2 = 10;
-//    }
-    
-    r1 = 10;
+    //    if(random(1)<0.5){
+    //        r1 = 10;
+    //        r2 = 20;
+    //    }else{
+    //        r1 = 20;
+    //        r2 = 10;
+    //    }
+
+    r1 = 12;
     r2 = 20;
 
     ///START SYSTEM
     runners = [];
 
     ///PG1
-    numSystems = floor(random(1,5));
-    let pgX = int(innerWidth/r1/2*2+1);
-    let pgY = int(innerHeight/r1/2*2+1);
+    numSystems = floor(random(1,4));
+    let pgX = int(2560/r1/2*2+1);
+    let pgY = int(1290/r1/2*2+1);
     pg = createGraphics(pgX, pgY);
-    //pg.pixelDensity(1);
+    pg.pixelDensity(1);
     //pg.noSmooth();
 
     ///PG2
-    numSystems2 = floor(random(2,5));
-    pg2 = createGraphics(innerWidth/r2, innerHeight/r2);
+    numSystems2 = floor(random(2,4));
+    let pg2X = int(2560/r1/2*2+1);
+    let pg2Y = int(1290/r1/2*2+1);
+    pg2 = createGraphics(pg2X, pg2Y);
     //pg2.pixelDensity(1);
     //pg2.noSmooth();
+    
+    pg3 = createGraphics(pg2X, pg2Y);
 
-    ///PG3
-//    pg3 = createGraphics(innerWidth/r2, innerHeight/r2);
-    //pg3.pixelDensity(1);
-    //pg3.noSmooth();
 
     canvas.imageSmoothingEnabled = false;
     p5.disableFriendlyErrors = true;
-
-    //noSmooth();
-//    pg.strokeWeight(1.01);
-//    pg2.strokeWeight(1.01);
-//    pg3.strokeWeight(1.01);
-
-    //pixelDensity(1);
-    //noSmooth();
+    noSmooth();
 
     ////COLOR QUAD
     if(random(10)<9){
@@ -100,57 +93,90 @@ function setup() {
         colorQuads = '#000000';
     }
 
-    noSmooth();
-
     ///RANDSHAPES
     randShapes = random(10);
+
+    let fIx = int(2560/r1/2*2+1);
+    let fIy = int(1290/r1/2*2+1);
     
-    let fIx = int(innerWidth/r1/2*2+1);
-    let fIy = int(innerHeight/r1/2*2+1);
-    //FINALIMAGE
+    let fIx2 = int(2560/r1/2*2+1);
+    let fIy2 = int(1290/r1/2*2+1);
+    
+    //FINALIMAGE AND TEMP ARRAY OF PIXELS
     finalImage = createImage(fIx, fIy);
+    finalImage2 = createImage(fIx, fIy);
+    
+    tempPixels = [];
+    tempPixels2 = [];
+    pixelDensity(1);
 }
 
 function draw() {
-    background(0, 0, 0);    
+    
+    background(0, 0, 0);
+    pgShow();
+    
+    ///MANIPULATE PIXELS ALL AT ONCE
+    
     finalImage.loadPixels();
     
-    ///MAKE ALL ALPHAS 100%
+    for(let x=0; x<finalImage.width; x++){
+        for(let y=0; y<finalImage.height; y++){
+            let tempIndex = (x + y * finalImage.width)*4;
+                
+            //if((x<finalImage.width/2-sizeCx/2-1 || x>finalImage.width/2+sizeCx/2 || y<finalImage.height/2-sizeCy/2 || y>finalImage.height/2+sizeCy/2)){
+                finalImage.pixels[tempIndex] = tempPixels[tempIndex];
+                finalImage.pixels[tempIndex+1] = tempPixels[tempIndex+1];
+                finalImage.pixels[tempIndex+2] = tempPixels[tempIndex+2];
+                finalImage.pixels[tempIndex+3] = tempPixels[tempIndex+3];
+            //}
+            //else{
+//                finalImage.pixels[tempIndex] = tempPixels2[tempIndex];
+//                finalImage.pixels[tempIndex+1] = tempPixels2[tempIndex+1];
+//                finalImage.pixels[tempIndex+2] = tempPixels2[tempIndex+2];
+//                finalImage.pixels[tempIndex+3] = tempPixels2[tempIndex+3];
+            //}
+                
+            
+        }
+    }
     
-
-    
-    pgShow();
-
     finalImage.updatePixels();
-
-    //pg2.mask(pg3);
-    //( imageClone = pg2 ).mask( pg3 );
-//    finalImage.loadPixels();
-//    for(let x=0; x<finalImage.width; x++){
-//        for(let y=0; y<finalImage.height; y++){
-//            let index = x + y * finalImage.width;
-////            finalImage.pixels[index] = 255;
-////            finalImage.pixels[index+1] = 0;
-////            finalImage.pixels[index+2] = 0;
-//            finalImage.set(x, y, color(255, 0, 0));
-//        }
-//    }
-//    
-//    finalImage.set(10, 10, color(255, 0, 0));
-//    finalImage.updatePixels();
     
+    ///SECOND IMAGE
+    finalImage2.loadPixels();
+    
+    for(let x=0; x<finalImage2.width; x++){
+        for(let y=0; y<finalImage2.height; y++){
+            let tempIndex = (x + y * finalImage2.width)*4;
 
-    //image(pg, 0, 0, innerWidth, innerHeight);
+            //if((x>finalImage2.width/2-sizeCx/2/2-1 && x<finalImage2.width/2+sizeCx/2/2 && y>finalImage2.height/2-sizeCy/2/2 && y<finalImage2.height/2+sizeCy/2/2)){
+                finalImage2.pixels[tempIndex] = tempPixels2[tempIndex];
+                finalImage2.pixels[tempIndex+1] = tempPixels2[tempIndex+1];
+                finalImage2.pixels[tempIndex+2] = tempPixels2[tempIndex+2];
+                finalImage2.pixels[tempIndex+3] = tempPixels2[tempIndex+3];
+                
+            //}
+        }
+    }
+    
+    finalImage2.updatePixels();
+    
+    //finalImage2.mask(pg3);
+    imageMode(CORNER);
     image(finalImage, 0, 0, innerWidth, innerHeight);
     
-    ////NEAREST NEIGHBOR
-//    tex = canvas.getTexture(finalImage);
-//    tex.setInterpolation(NEAREST, NEAREST); 
+    imageMode(CENTER);
+    translate(innerWidth/2, innerHeight/2);
+    //scale(2);
+    image(finalImage2, 0, 0, innerWidth, innerHeight);
 
-    
- 
+    ////NEAREST NEIGHBOR FOR P3d
+    //    tex = canvas.getTexture(finalImage);
+    //    tex.setInterpolation(NEAREST, NEAREST); 
+
     console.log(frameRate());
-    
+
 }
 
 function windowResized() {
@@ -161,43 +187,30 @@ function windowResized() {
 
 function pgShow(){
     t++;
-    
+
     //BEGIN
-    pg.colorMode(HSB, 360, 80, 80, 80);
-    //pg.background(0);
-    pg.clear();
-    pg.noFill();
-    
-    pg2.colorMode(HSB, 360, 80, 80, 80);
-    pg2.background(0, 0, 0);
-    pg2.noFill();
-    
+    pg.background(0);
+
+
     //SYSTEMS
-    if(t==1){
+    if(t==1 || t%60==0){
         for(let i=0; i<numSystems; i++){
-            //randomSeed(1);
             colorPicker = floor(map(random(1), 0, 1, 0, palette.length));
             let finalCol = color(palette[colorPicker]);
-            //randomSeed(seed);
-            runners.push(new ParticleSystem(floor(random(3, 10)), random(2.5,5), finalCol, i, pg, pg.width, pg.height));
+            runners.push(new ParticleSystem(floor(random(2,7)), random(3,5), finalCol, i, pg, pg.width, pg.height, 1));
         }
     }
-    randomSeed(seed);
-//        if(t==1){
-//        for(let i=0; i<numSystems2; i++){
-//            colorPicker2 = floor(map(random(1), 0, 1, 0, palette.length));
-//            let finalCol2 = color(palette[colorPicker2]);
-//            runners.push(new ParticleSystem(floor(random(2,10)), random(2,5), finalCol2, i, pg2, pg2.width, pg2.height));
-//        }
-//    }
-    
-    
-    pg.push();
-    pg2.push();
-    
-//    pg.translate(-pg.width/2, -pg.height/2, 1);
-//    pg2.translate(-pg2.width/2, -pg2.height/2, 3);
-    
+
+    if(t==1 || t%60==0){
+        for(let i=0; i<numSystems2; i++){
+            colorPicker2 = floor(map(random(1), 0, 1, 0, palette.length));
+            let finalCol2 = color(palette[colorPicker2]);
+            runners.push(new ParticleSystem(floor(random(2,7)), random(1.5,3), finalCol2, i, pg2, pg2.width, pg2.height, 2));
+        }
+    }
+
+
+    //RUN SYSTEMS
     for(let i=0; i<runners.length; i++){
         let p = runners[i];
         p.force();
@@ -205,28 +218,29 @@ function pgShow(){
         p.update();
     }
     
-    pg.pop();
-    pg2.pop();
+    //IF DEAD
+    let len = runners.length;
+    for (let i = len - 1; i >= 0; i--) {
+        let r = runners[i];
+
+        if (r.isDead()) {
+            runners.splice(i, 1);
+        }
+        
+    }
+
+
+    ////////////MASK BIG
+    pg3.background(0);
+    let p = runners[0];
+    sizeCx = p.stepSize;
+    sizeCy = pg.height/2;
+    pg3.fill(255);
+    pg3.noStroke();
+    pg3.rectMode(CENTER);
+    pg3.rect(pg3.width/2, pg3.height/2, sizeCx, sizeCy);
     
 
-    
-    ////////////MASK PG2
-    
-//    pg3.colorMode(HSB, 360, 80, 80, 80);
-//    pg3.background(0, 100, 0);
-//    pg2.rectMode(CENTER);
-//    pg2.fill(0);
-//    pg2.noStroke();
-    //pg3.translate(-pg3.width/2, -pg3.height/2, 1);
-    
-    pg2.push();
-    //OPTION 1
-    let p = runners[0];
-        sizeCx = p.stepSize;
-        sizeCy = r1*4;
-    
-    pg2.pop();
-    pg2.rectMode(CORNER);
 }
 
 
