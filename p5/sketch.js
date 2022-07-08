@@ -113,9 +113,10 @@ function draw() {
         }
 
         finalImage2.updatePixels();
-
-        image(finalImage, 0, 0, innerWidth, innerHeight);
-        image(finalImage2, 0, 0, innerWidth, innerHeight);
+        imageMode(CENTER);
+        image(finalImage, windowWidth/2, windowHeight/2, windowWidth / windowHeight > 1.98 ? windowWidth : windowHeight*1.98, windowWidth / windowHeight > 1.98 ? windowWidth * 0.50 : windowHeight);
+        image(finalImage2, windowWidth/2, windowHeight/2, windowWidth / windowHeight > 1.98 ? windowWidth : windowHeight*1.98, windowWidth / windowHeight > 1.98 ? windowWidth * 0.50 : windowHeight);
+        //image(finalImage2, windowWidth/2, windowHeight/2, windowWidth, windowWidth * 0.50);
         
         
         console.log(frameRate());
