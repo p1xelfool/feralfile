@@ -28,7 +28,7 @@ let colorQuads;
 let randShapes;
 let sizeCx, sizeCy;
 
-let finalImage, tempPixels, tempPixels2;
+let finalImage, finalImage2, tempPixels, tempPixels2;
 
 /////RESOLUTION
 let r1, r2;
@@ -104,7 +104,7 @@ function setup() {
     
     //FINALIMAGE AND TEMP ARRAY OF PIXELS
     finalImage = createImage(fIx, fIy);
-    //finalImage = createImage(fIx, fIy);
+    finalImage2 = createImage(fIx, fIy);
     
     tempPixels = [];
     tempPixels2 = [];
@@ -123,9 +123,6 @@ function draw() {
     ///SECOND IMAGE
     finalImage.loadPixels();
     
-    
-    
-    
         //////NON-UPSCALE
     for(let x=0; x<finalImage.width; x++){
         for(let y=0; y<finalImage.height; y++){
@@ -142,28 +139,32 @@ function draw() {
         }
     }
     
-    
-//    for(let x=0; x<finalImage.width; x++){
-//        for(let y=0; y<finalImage.height; y++){
-//            let tempIndex = (x + y * finalImage.width)*4;
-//
-//            //if((x>finalImage.width/2-sizeCx/2-2 && x<finalImage.width/2+sizeCx/2 && y>finalImage.height/2-sizeCy/2 && y<finalImage.height/2+sizeCy/2)){
-//                finalImage.pixels[tempIndex] = tempPixels2[tempIndex];
-//                finalImage.pixels[tempIndex+1] = tempPixels2[tempIndex+1];
-//                finalImage.pixels[tempIndex+2] = tempPixels2[tempIndex+2];
-//                finalImage.pixels[tempIndex+3] = tempPixels2[tempIndex+3];
-//            
-//                
-//            //}
-//        }
-//    }
-    
-    
-
-    
     finalImage.updatePixels();
     
+    
+        ///SECOND IMAGE
+    finalImage2.loadPixels();
+    
+        //////NON-UPSCALE
+    for(let x=0; x<finalImage2.width; x++){
+        for(let y=0; y<finalImage2.height; y++){
+            let tempIndex = (x + y * finalImage2.width)*4;
+                
+            //if((x<finalImage.width/2-sizeCx/2-2 || x>finalImage.width/2+sizeCx/2 || y<finalImage.height/2-sizeCy/2 || y>finalImage.height/2+sizeCy/2)){
+                finalImage2.pixels[tempIndex] = tempPixels2[tempIndex];
+                finalImage2.pixels[tempIndex+1] = tempPixels2[tempIndex+1];
+                finalImage2.pixels[tempIndex+2] = tempPixels2[tempIndex+2];
+                finalImage2.pixels[tempIndex+3] = tempPixels2[tempIndex+3];
+            //}
+                
+            
+        }
+    }
+    
+    finalImage2.updatePixels();
+    
     image(finalImage, 0, 0, innerWidth, innerHeight);
+    image(finalImage2, 0, 0, innerWidth, innerHeight);
 
     ////NEAREST NEIGHBOR FOR P3d
     //    tex = canvas.getTexture(finalImage);
@@ -237,7 +238,12 @@ function pgShow(){
 
 }
 
-
+function mouseClicked() {
+  // if you click you will see that
+  // reset() resets the translate back to the initial state
+  // of the Graphics object
+  pg.reset();
+}
 
 
 
