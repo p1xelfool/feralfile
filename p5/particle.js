@@ -14,7 +14,7 @@ let Particle = function (x, y, tempColumns, tempCor, tempIndex, tempIntervalCell
     this.cor = tempCor;
 
     this.killingTime = 2.0;
-    this.lifespan = 440.0;
+    this.lifespan = 380.0;
     this.index = tempIndex;
     this.intervalCells = tempIntervalCells;
 
